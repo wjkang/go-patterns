@@ -1,25 +1,23 @@
-package main
+package facade
 
 import "fmt"
 
-var db=map[string]string{
-	"a@a.com":"a",
-	"b@b.com":"b",
+var db = map[string]string{
+	"a@a.com": "a",
+	"b@b.com": "b",
 }
 
 type database struct {
-
 }
 
-func (this *database) getNameByEmail(email string)  string{
+func (this *database) getNameByEmail(email string) string {
 	return db[email]
 }
 
-
 type mdWriter struct {
-
 }
-func (this *mdWriter) title(title string) string{
+
+func (this *mdWriter) title(title string) string {
 	return "# Welcome to " + title + "'s page!"
 }
 
@@ -35,7 +33,7 @@ func (self *PageMaker) MakeWelcomePage(mail string) string {
 
 	return page
 }
-func main(){
+func main() {
 	maker := PageMaker{}
 	result := maker.MakeWelcomePage("a@a.com")
 	fmt.Println(result)

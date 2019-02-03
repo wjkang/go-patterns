@@ -1,28 +1,30 @@
-package main
+package chain_of_responsibility
 
 import (
-	"strconv"
 	"fmt"
+	"strconv"
 )
 
 type Trouble struct {
 	number int
 }
-func (this *Trouble) getNumber() int{
+
+func (this *Trouble) getNumber() int {
 	return this.number
 }
 
 type Support interface {
 	resolve(trouble Trouble) bool
-	handle(support Support,trouble Trouble) string
+	handle(support Support, trouble Trouble) string
 }
 type defaultSupport struct {
 	Support
 	name string
 	next Support
 }
-func (this *defaultSupport) setNext(support Support){
-	this.next=support
+
+func (this *defaultSupport) setNext(support Support) {
+	this.next = support
 }
 func (self *defaultSupport) done(trouble Trouble) string {
 	return "trouble:" + strconv.Itoa(trouble.getNumber()) + " is resolved by " + self.name
@@ -30,7 +32,7 @@ func (self *defaultSupport) done(trouble Trouble) string {
 func (self *defaultSupport) fail(trouble Trouble) string {
 	return "trouble:" + strconv.Itoa(trouble.getNumber()) + " cannot be resolved"
 }
-func (this *defaultSupport) handle(support Support,trouble Trouble) string{
+func (this *defaultSupport) handle(support Support, trouble Trouble) string {
 	if support.resolve(trouble) {
 		return this.done(trouble)
 	} else if this.next != nil {
@@ -61,10 +63,10 @@ func (self *limitSupport) resolve(trouble Trouble) bool {
 	}
 }
 
-func main(){
-	a := noSupport{&defaultSupport{name:"A"}}
-	b := limitSupport{&defaultSupport{name:"B"},5}
-	c := limitSupport{&defaultSupport{name:"C"},3}
+func main() {
+	a := noSupport{&defaultSupport{name: "A"}}
+	b := limitSupport{&defaultSupport{name: "B"}, 5}
+	c := limitSupport{&defaultSupport{name: "C"}, 3}
 	a.setNext(&b)
 	b.setNext(&c)
 
@@ -72,4 +74,3 @@ func main(){
 
 	fmt.Println(result)
 }
-

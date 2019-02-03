@@ -1,15 +1,16 @@
-package main
+package observer
 
 import (
-	"math/rand"
 	"fmt"
+	"math/rand"
 )
 
 type NumberGenerator struct {
-    observer []Observer
+	observer []Observer
 }
-func (this *NumberGenerator) AddObserver(observer Observer){
-    this.observer=append(this.observer,observer)
+
+func (this *NumberGenerator) AddObserver(observer Observer) {
+	this.observer = append(this.observer, observer)
 }
 func (self *NumberGenerator) notifyObservers() {
 
@@ -26,10 +27,9 @@ type randomNumberGenerator struct {
 func (self *randomNumberGenerator) getNumber() int {
 	return rand.Intn(10)
 }
-func (self *randomNumberGenerator) Execute(){
+func (self *randomNumberGenerator) Execute() {
 	self.notifyObservers()
 }
-
 
 type Observer interface {
 	update()
@@ -47,13 +47,13 @@ type GraphObserver struct {
 }
 
 func (self *GraphObserver) update() {
-	i:=self.generator.getNumber()
-	for j:=0;j<i;j++{
+	i := self.generator.getNumber()
+	for j := 0; j < i; j++ {
 		fmt.Print("*")
 	}
 }
 
-func main(){
+func main() {
 	random := randomNumberGenerator{&NumberGenerator{}}
 
 	o1 := &DigitObserver{random}

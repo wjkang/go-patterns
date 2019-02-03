@@ -1,11 +1,11 @@
-package main
+package prototype
 
 import "fmt"
 
 type PersonalInfo struct {
 	name string
-	sex string
-	age string
+	sex  string
+	age  string
 }
 
 type WorkExperience struct {
